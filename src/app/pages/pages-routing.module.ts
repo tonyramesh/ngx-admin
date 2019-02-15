@@ -15,6 +15,10 @@ const routes: Routes = [{
   }, {
     path: 'iot-dashboard',
     component: DashboardComponent,
+  },
+  {
+    path: 'nfv-configuration',
+    loadChildren: './nfv-configuration/nfv-configuration.module#NfvConfigurationModule',
   }, {
     path: 'ui-features',
     loadChildren: './ui-features/ui-features.module#UiFeaturesModule',

@@ -20,7 +20,6 @@ import {
 } from './popovers/popover-examples.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
 
-
 const COMPONENTS = [
   ModalOverlaysComponent,
   ToastrComponent,
