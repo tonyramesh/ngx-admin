@@ -18,9 +18,8 @@
   </div>
 </div>
 
-
-<ngx-graph class="chart-container" [links]="hierarchialGraph.links" [nodes]="hierarchialGraph.nodes" [legend]="true"
-  [curve]="curve" [draggingEnabled]="false">
+<ngx-graph class="chart-container" [(links)]="hierarchialGraph.links" [(nodes)]="hierarchialGraph.nodes" [legend]="true"
+  [curve]="curve" [draggingEnabled]="true">
 
   <ng-template #defsTemplate>
     <svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4" orient="auto">

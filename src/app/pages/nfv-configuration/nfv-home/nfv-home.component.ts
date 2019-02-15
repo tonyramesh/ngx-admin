@@ -20,14 +20,8 @@ export class NfvHomeComponent implements OnInit {
   // curve = shape.curveLinear;
   id = 0;
   public ngOnInit(): void {
-    let data = {
-      id: 'das',
-      label: 'sda',
-      position: 'x0'
-    };
     this.hierarchialGraph.nodes = [
     ];
-
     this.hierarchialGraph.links = [
     ];
     // this.showGraph(data);
@@ -47,8 +41,6 @@ export class NfvHomeComponent implements OnInit {
 
   done = [];
 
-
-
   showGraph(data, link) {
     let final;
     if (this.hierarchialGraph.nodes.length <= 0) {
@@ -56,11 +48,10 @@ export class NfvHomeComponent implements OnInit {
       ];
     }
     else {
-      final = this.hierarchialGraph.links.push(link);
       this.hierarchialGraph.links.push(link);
+      final = this.hierarchialGraph.links;
     }
-    this.hierarchialGraph.links = [
-    ];
+    this.hierarchialGraph.links = final;
     this.hierarchialGraph.nodes.push(data);
   }
 
