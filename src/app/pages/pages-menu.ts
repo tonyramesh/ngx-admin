@@ -8,13 +8,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //   home: true,
   // },
   {
-    title: 'ThinkNFV Dashboard',
+    title: 'Dashboard',
     icon: 'nb-home',
     link: '/pages/iot-dashboard',
   },
   {
     title: 'NFV Configuration',
-    icon: 'nb-home',
+    icon: 'nb-star',
     link: '/pages/nfv-configuration',
   },
   // {

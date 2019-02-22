@@ -48,10 +48,11 @@ export class NfvHomeComponent implements OnInit {
       ];
     }
     else {
+      final = this.hierarchialGraph.links.push(link);
       this.hierarchialGraph.links.push(link);
-      final = this.hierarchialGraph.links;
     }
-    this.hierarchialGraph.links = final;
+    this.hierarchialGraph.links = [
+    ];
     this.hierarchialGraph.nodes.push(data);
   }
 

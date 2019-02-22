@@ -1,5 +1,4 @@
 
-
 <div class="example-container">
   <h2>Components</h2>
 
@@ -11,7 +10,6 @@
 
 <div class="drop-container">
   <h2>NFV Container</h2>
-
   <div cdkDropList cdkDropListOrientation="horizontal" #doneList="cdkDropList" [cdkDropListData]="done"
     [cdkDropListConnectedTo]="[todoList]" class="example-list" (cdkDropListDropped)="drop($event)">
     <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
