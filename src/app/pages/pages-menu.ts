@@ -13,6 +13,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/iot-dashboard',
   },
   {
+    title: 'NFV Templates',
+    icon: 'nb-star',
+    link: '/pages/nfv-templates',
+  },
+  {
     title: 'NFV Configuration',
     icon: 'nb-star',
     link: '/pages/nfv-configuration',

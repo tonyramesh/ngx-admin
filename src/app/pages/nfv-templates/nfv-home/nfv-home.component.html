@@ -1,0 +1,28 @@
+<!-- <svg width="960" height="600"></svg> -->
+
+<div #myDiagramDiv style="width:100%; height:450px; background-color: #DAE4E4;"></div>
+<div class="row" *ngIf="nodeDetails">
+    <div class="col-md-12 col-lg-12">
+        <nb-card size="small">
+            <nb-tabset>
+                <nb-tab tabTitle="Details">
+                    <div *ngIf="selectedNode=='classifier'">
+                        <classifier-template [nodeDetails]="nodeDetails"></classifier-template>
+                    </div>
+                    <div *ngIf="selectedNode=='vnf'">
+                        <vnf-template [nodeDetails]="nodeDetails"></vnf-template>
+                    </div>
+                    <div *ngIf="selectedNode=='clientServer'">
+                        <client-server-template [nodeDetails]="nodeDetails"></client-server-template>
+                    </div>
+                </nb-tab>
+                <nb-tab tabTitle="CPU Usage">
+                    <span>Content #2</span>
+                </nb-tab>
+                <nb-tab tabTitle="Simple Tab #3">
+                    <span>Content #3</span>
+                </nb-tab>
+            </nb-tabset>
+        </nb-card>
+    </div>
+</div>

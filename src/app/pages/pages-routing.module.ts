@@ -15,8 +15,11 @@ const routes: Routes = [{
   {
     path: 'nfv-configuration',
     loadChildren: './nfv-configuration/nfv-configuration.module#NfvConfigurationModule',
-  }
-    , {
+  },
+  {
+    path: 'nfv-templates',
+    loadChildren: './nfv-templates/nfv-templates.module#NfvTemplatesConfigurationModule',
+  }, {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
