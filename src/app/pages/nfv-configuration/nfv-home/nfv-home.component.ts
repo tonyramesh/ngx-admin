@@ -1,99 +1,306 @@
 import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { NbWindowService } from '@nebular/theme';
 import { NfvImageFormComponent } from './nfv-image-form/nfv-image-form.component';
 import * as shape from 'd3-shape';
-import { NgxGraphModule } from '@swimlane/ngx-graph';
+import { DragulaService } from 'ng2-dragula';
 
+declare var vis: any
 @Component({
   selector: 'ngx-nfv-home',
   templateUrl: './nfv-home.component.html',
   styleUrls: ['./nfv-home.component.scss']
 })
 export class NfvHomeComponent implements OnInit {
-  constructor(private windowService: NbWindowService) {
 
+  vnf = [{ name: "VNF" }];
+  vnfContainer = [];
+  visVnfNodes: any;
+  vnfNetwork: any;
+
+  client = [{ name: "CLIENT" }];
+  clientContainer = [];
+  visClientNodes: any;
+  clientNetwork: any;
+
+  server = [{ name: "SERVER" }];
+  serverContainer = [];
+  visServerNodes: any;
+  serverNetwork: any;
+
+  classifier = [{ name: "CLASSIFIER" }];
+  classifierContainer = [];
+  visclassifierNodes: any = [];
+  classifierNetwork: any;
+
+  constructor(private dragulaService: DragulaService) {
+    this.initializeDragulaVnfService();
+    this.initializeDragulaClientService();
+    this.initializeDragulaServerService();
+    this.initializeDragulaClassifierService();
   }
 
-  hierarchialGraph = { nodes: [], links: [] };
-  curve = shape.curveBundle.beta(1);
-  // curve = shape.curveLinear;
-  id = 0;
   public ngOnInit(): void {
-    this.hierarchialGraph.nodes = [
-    ];
-    this.hierarchialGraph.links = [
-    ];
-    // this.showGraph(data);
+    this.renderVisVnfGraph();
+    this.renderVisClientGraph();
+    this.renderVisServerGraph();
+    this.renderVisClassifierGraph();
   }
 
-  showGraphLink(link) {
-    this.hierarchialGraph.links.push(link);
-  }
-
-  todo = [
-    'IMAGE',
-    'INSTANCE',
-    'NS',
-    'VNFD',
-    'VIM ACCOUNT'
-  ];
-
-  done = [];
-
-  showGraph(data, link) {
-    let final;
-    if (this.hierarchialGraph.nodes.length <= 0) {
-      final = [
-      ];
-    }
-    else {
-      final = this.hierarchialGraph.links.push(link);
-      this.hierarchialGraph.links.push(link);
-    }
-    this.hierarchialGraph.links = [
-    ];
-    this.hierarchialGraph.nodes.push(data);
-  }
-
-  drop(event: CdkDragDrop<string[]>) {
-    let id;
-    let data = {
-      id: id,
-      label: this.todo[event.previousIndex],
-      position: 'x' + this.id
+  renderVisVnfGraph() {
+    this.visVnfNodes = new vis.DataSet([]);
+    var edges = new vis.DataSet([]);
+    var container = document.getElementById('vnfNetwork');
+    var data = {
+      nodes: this.visVnfNodes,
+      edges: edges
     };
-    let link = {
-      source: 'start',
-      target: id,
-      label: 'Process#1'
+    var options = {
+      nodes: {
+        shape: 'dot',
+        size: 20,
+        font: {
+          size: 10,
+          color: '#ffffff'
+        },
+        borderWidth: 2
+      },
+      edges: {
+        width: 2
+      },
+      groups: {
+        vnf: {
+          shape: 'icon',
+          icon: {
+            face: 'FontAwesome',
+            code: '\uf1b3',
+            size: 20,
+            color: 'white'
+          }
+        }
+      }
     };
-    if (this.todo[event.previousIndex] == 'IMAGE') {
-      data.id = 'start';
-      this.showGraph(data, {});
-    } else {
-      link.target = this.id.toString();
-      data.id = link.target;
-      this.showGraph(data, link);
-      // this.showGraphLink(link);
-    }
-    this.id++;
-    // if (this.hierarchialGraph.nodes.length > 1) {
-    //   this.showGraphLink(link);
-    // }
-    // this.showGraph(data);
-    this.todo.push(this.todo[event.previousIndex]);
-    console.log('event.container', JSON.stringify(this.hierarchialGraph.nodes));
-    console.log(JSON.stringify(this.hierarchialGraph.links));
-    this.windowService.open(NfvImageFormComponent, { title: this.todo[event.previousIndex] });
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
-    }
+    this.vnfNetwork = new vis.Network(container, data, options);
   }
+
+  initializeDragulaVnfService() {
+    const vnfs: any = this.dragulaService.find('VNFS');
+    if (vnfs !== undefined) this.dragulaService.destroy('VNFS');
+
+    this.dragulaService.createGroup('VNFS', {
+      copy: (el, source) => {
+        return source.id === 'source';
+      },
+      copyItem: (data) => {
+        return data;
+      },
+      accepts: (el, target, source, sibling) => {
+        return target.id !== 'source';
+      }
+    });
+    this.dragulaService.dropModel("VNFS").subscribe(args => {
+      this.visVnfNodes.add({
+        id: Date.now(),
+        label: args.item.name,
+        group: "vnf"
+      });
+      this.visGraphFitToScreen(this.vnfNetwork);
+      // this.windowService.open(NfvImageFormComponent, { title: args.item.name });
+    });
+  }
+
+  renderVisClientGraph() {
+    this.visClientNodes = new vis.DataSet([]);
+    var edges = new vis.DataSet([]);
+    var container = document.getElementById('clientNetwork');
+    var data = {
+      nodes: this.visClientNodes,
+      edges: edges
+    };
+    var options = {
+      nodes: {
+        shape: 'dot',
+        size: 20,
+        font: {
+          size: 10,
+          color: '#ffffff'
+        },
+        borderWidth: 2
+      },
+      edges: {
+        width: 2
+      },
+      groups: {
+        client: {
+          shape: 'icon',
+          icon: {
+            face: 'FontAwesome',
+            code: '\uf108',
+            size: 20,
+            color: 'white'
+          }
+        }
+      }
+    };
+    this.clientNetwork = new vis.Network(container, data, options);
+  }
+
+  initializeDragulaClientService() {
+    const client: any = this.dragulaService.find('CLIENT');
+    if (client !== undefined) this.dragulaService.destroy('CLIENT');
+
+    this.dragulaService.createGroup('CLIENT', {
+      copy: (el, source) => {
+        return source.id === 'clientSource';
+      },
+      copyItem: (data) => {
+        return data;
+      },
+      accepts: (el, target, source, sibling) => {
+        return target.id !== 'clientSource';
+      }
+    });
+    this.dragulaService.dropModel("CLIENT").subscribe(args => {
+      this.visClientNodes.add({
+        id: Date.now(),
+        label: args.item.name,
+        group: "client"
+      });
+      // this.windowService.open(NfvImageFormComponent, { title: args.item.name });
+      this.visGraphFitToScreen(this.clientNetwork);
+    });
+  }
+
+  renderVisServerGraph() {
+    this.visServerNodes = new vis.DataSet([]);
+    var edges = new vis.DataSet([]);
+    var container = document.getElementById('serverNetwork');
+    var data = {
+      nodes: this.visServerNodes,
+      edges: edges
+    };
+    var options = {
+      nodes: {
+        shape: 'dot',
+        size: 20,
+        font: {
+          size: 10,
+          color: '#ffffff'
+        },
+        borderWidth: 2
+      },
+      edges: {
+        width: 2
+      },
+      groups: {
+        server: {
+          shape: 'icon',
+          icon: {
+            face: 'FontAwesome',
+            code: '\uf1c0',
+            size: 20,
+            color: 'white'
+          }
+        }
+      }
+    };
+    this.serverNetwork = new vis.Network(container, data, options);
+  }
+
+  initializeDragulaServerService() {
+    const server: any = this.dragulaService.find('SERVER');
+    if (server !== undefined) this.dragulaService.destroy('SERVER');
+
+    this.dragulaService.createGroup('SERVER', {
+      copy: (el, source) => {
+        return source.id === 'serverSource';
+      },
+      copyItem: (data) => {
+        return data;
+      },
+      accepts: (el, target, source, sibling) => {
+        return target.id !== 'serverSource';
+      }
+    });
+    this.dragulaService.dropModel("SERVER").subscribe(args => {
+      this.visServerNodes.add({
+        id: Date.now(),
+        label: args.item.name,
+        group: "server"
+      });
+      // this.windowService.open(NfvImageFormComponent, { title: args.item.name });
+      this.visGraphFitToScreen(this.serverNetwork);
+    });
+  }
+
+  renderVisClassifierGraph() {
+    this.visclassifierNodes = new vis.DataSet([]);
+    var edges = new vis.DataSet([]);
+    var container = document.getElementById('classifierNetwork');
+    var data = {
+      nodes: this.visclassifierNodes,
+      edges: edges
+    };
+    var options = {
+      nodes: {
+        shape: 'dot',
+        size: 20,
+        font: {
+          size: 10,
+          color: '#ffffff'
+        },
+        borderWidth: 2
+      },
+      edges: {
+        width: 2
+      },
+      groups: {
+        classifier: {
+          shape: 'icon',
+          icon: {
+            face: 'FontAwesome',
+            code: '\uf258',
+            size: 20,
+            color: 'white'
+          }
+        }
+      }
+    };
+    this.classifierNetwork = new vis.Network(container, data, options);
+  }
+
+  initializeDragulaClassifierService() {
+    const classifier: any = this.dragulaService.find('CLASSIFIER');
+    if (classifier !== undefined) this.dragulaService.destroy('CLASSIFIER');
+
+    this.dragulaService.createGroup('CLASSIFIER', {
+      copy: (el, source) => {
+        return source.id === 'classifierSource';
+      },
+      copyItem: (data) => {
+        return data;
+      },
+      accepts: (el, target, source, sibling) => {
+        return target.id !== 'classifierSource';
+      }
+    });
+    this.dragulaService.dropModel("CLASSIFIER").subscribe(args => {
+      this.visclassifierNodes.add({
+        id: Date.now(),
+        label: args.item.name,
+        group: "classifier"
+      });
+      // this.windowService.open(NfvImageFormComponent, { title: args.item.name });
+      this.visGraphFitToScreen(this.classifierNetwork);
+    });
+  }
+
+  visGraphFitToScreen(network) {
+    var options = {
+      offset: { x: 0, y: 0 },
+      duration: 1000,
+      easingFunction: "easeInOutQuad"
+    };
+    network.fit({ animation: options });
+  }
+
 }

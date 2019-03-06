@@ -11,6 +11,7 @@ import { NbWindowService } from '@nebular/theme';
 // import {FormlyMaterialModule} from '@ngx-formly/material';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { DragulaModule } from 'ng2-dragula';
 const ENTRY_COMPONENTS = [
   NfvImageFormComponent
 ];
@@ -28,7 +29,8 @@ const ENTRY_COMPONENTS = [
     NgxEchartsModule,
     DragDropModule,
     NgxGraphModule,
-    NgxChartsModule
+    NgxChartsModule,
+    DragulaModule.forRoot()
     // FormlyMaterialModule
   ],
   exports: [],

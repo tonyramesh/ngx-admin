@@ -1,6 +1,71 @@
+<div class="row show-grid" style="border:1px solid white;">
+  <div class="col-md-2 nfv-components">
+    <div class="container" dragula="CLIENT" [(dragulaModel)]="client" id="clientSource">
+      <button class="btn"><i class="fa fa-desktop"></i> Client</button>
+    </div>
+  </div>
+  <div class="col-md-2 nfv-components">
+    <div class="container" dragula="VNFS" [(dragulaModel)]="vnf" id="source">
+      <button class="btn"><i class="fa fa-cubes"></i> Vnf</button>
+    </div>
+  </div>
+  <div class="col-md-2 nfv-components">
+    <div class="container" dragula="SERVER" [(dragulaModel)]="server" id="serverSource">
+      <button class="btn"><i class="fa fa-database"></i> Server</button>
+    </div>
+  </div>
+  <div class="col-md-2 nfv-components">
+    <div class="container" dragula="SERVER" [(dragulaModel)]="server" id="serverSource">
+      <button class="btn"><i class="fa fa-eye"></i> Controller</button>
+    </div>
+  </div>
+  <div class="col-md-2 nfv-components">
+    <div class="container" dragula="CLASSIFIER" [(dragulaModel)]="classifier" id="classifierSource">
+      <button class="btn"><i class="fa fa-hand-lizard-o"></i> Classifier</button>
+    </div>
+  </div>
+</div>
 
+<div class="container-fluid text-center" style="margin-top:10px">
+  <div class="row content">
+    <div class="col-sm-2 sidenav">
+      <div dragula="CLIENT" [(dragulaModel)]="clientContainer" id="clientDestination">
+        <div id="clientNetwork" style="width:100%;height:100%;"></div>
+      </div>
+    </div>
+    <div class="col-sm-8 text-left vnfContainer">
+      <div class="row content">
+        <div class="col-sm-12" style="padding-top: 20px;">
+          <div dragula="VNFS" [(dragulaModel)]="vnfContainer" id="vnfDestination">
+            <div id="vnfNetwork"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 classifierContainer">
+          <div dragula="CLASSIFIER" [(dragulaModel)]="classifierContainer" id="classifierDestination">
+            <div id="classifierNetwork"></div>
+          </div>
+        </div>
+        <div class="col-sm-6 classifierContainer">
+          <div class="well">
+            <p>SDN</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-2 sidenav">
+      <div dragula="SERVER" [(dragulaModel)]="serverContainer" id="serverDestination">
+        <div id="serverNetwork"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 
 <div class="example-container">
-  <h2>Components</h2>
+  <h2 style="color:white">Components</h2>
 
   <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo" [cdkDropListConnectedTo]="[doneList]"
     class="example-list" (cdkDropListDropped)="drop($event)">
@@ -9,7 +74,7 @@
 </div>
 
 <div class="drop-container">
-  <h2>NFV Container</h2>
+  <h2 style="color:white">NFV Container</h2>
   <div cdkDropList cdkDropListOrientation="horizontal" #doneList="cdkDropList" [cdkDropListData]="done"
     [cdkDropListConnectedTo]="[todoList]" class="example-list" (cdkDropListDropped)="drop($event)">
     <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
@@ -31,17 +96,4 @@
       <svg:text alignment-baseline="central" [attr.x]="10" [attr.y]="node.height / 2">{{node.label}}</svg:text>
     </svg:g>
   </ng-template>
-
-  <!-- <ng-template #linkTemplate let-link>
-    <svg:g class="edge">
-      <svg:path class="line" stroke-width="2" marker-end="url(#arrow)">
-      </svg:path>
-      <svg:text class="edge-label" text-anchor="middle">
-        <textPath style="fill: #666;" [attr.href]="'#' + link.id" startOffset="60%">
-          {{link.label}}
-        </textPath>
-      </svg:text>
-    </svg:g>
-  </ng-template> -->
-
-</ngx-graph>
+</ngx-graph> -->
